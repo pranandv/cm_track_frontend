@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./Inventory.css"; // Import external CSS
 
 const Inventory = () => {
   const [name, setName] = useState("");
@@ -7,32 +8,29 @@ const Inventory = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(""), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   // Handle adding inventory
   const handleAddInventory = async (e) => {
     e.preventDefault();
-
-    const token = localStorage.getItem("authToken"); // Fetch token from localStorage or cookies
-
+    const token = localStorage.getItem("token");
     if (!token) {
       setError("You are not authenticated. Please login.");
       return;
     }
-
     try {
       const response = await axios.post(
         "http://localhost:3001/inventory/add",
-        {
-          name,
-          quantity,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { name, quantity },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage(response.data.message); // Display success message
-      setName(""); // Clear input fields
+      setMessage(response.data.message);
+      setName("");
       setQuantity("");
     } catch (err) {
       setError("Error adding inventory. Please try again.");
@@ -40,12 +38,12 @@ const Inventory = () => {
   };
 
   return (
-    <div className="inventoryContainer">
-      <h3>Add New Inventory</h3>
-      {error && <div className="errorMessage">{error}</div>}
-      {message && <div className="successMessage">{message}</div>}
-      <form onSubmit={handleAddInventory} className="inventoryForm">
-        <div className="inputGroup">
+    <div className="inventory-container">
+      <h3 className="title">Add New Inventory</h3>
+      {error && <div className="error-message">{error}</div>}
+      {message && <div className="success-message">{message}</div>}
+      <form onSubmit={handleAddInventory} className="inventory-form">
+        <div className="input-group">
           <label>Name</label>
           <input
             type="text"
@@ -54,7 +52,7 @@ const Inventory = () => {
             required
           />
         </div>
-        <div className="inputGroup">
+        <div className="input-group">
           <label>Quantity</label>
           <input
             type="number"
@@ -63,9 +61,7 @@ const Inventory = () => {
             required
           />
         </div>
-        <button type="submit" className="submitButton">
-          Add Inventory
-        </button>
+        <button type="submit" className="submit-button">Add Inventory</button>
       </form>
     </div>
   );

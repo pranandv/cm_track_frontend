@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Settings from "./settings/Settings"; // Import the Settings component
+import Inventory from "./inventory/Inventory"; // Import the Inventory component
 import "./Dashboard.css"; // Import the CSS file
 
 const Dashboard = () => {
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState("dashboard");
 
   return (
     <div className="container">
       <div className="sidebar">
-        <h2 className="sidebarHeading">Dashboard</h2>
+        <h2 className="sidebarHeading">Welcome</h2>
         <ul className="sidebarList">
+          <li>
+            <Link
+              to="#"
+              className={`sidebarLink ${activePage === "dashboard" ? "active" : ""}`}
+              onClick={() => setActivePage("dashboard")}
+            >
+              Dashboard
+            </Link>
+          </li>
           <li>
             <Link
               to="#"
@@ -59,7 +69,7 @@ const Dashboard = () => {
         </ul>
       </div>
       <div className="mainContent">
-        {activePage === "home" && (
+        {activePage === "dashboard" && (
           <>
             <h3>Welcome to Your Dashboard</h3>
             <p>Here, you can manage your account, view your orders, and update your settings.</p>
@@ -78,7 +88,7 @@ const Dashboard = () => {
         {activePage === "settings" && <Settings />}
         {activePage === "profile" && <h3>Profile Section (Coming Soon)</h3>}
         {activePage === "orders" && <h3>Orders Section (Coming Soon)</h3>}
-        {activePage === "inventory" && <h3>Inventory Section (Coming Soon)</h3>}
+        {activePage === "inventory" && <Inventory />}
         {activePage === "employee" && <h3>Employee Section (Coming Soon)</h3>}
       </div>
     </div>
