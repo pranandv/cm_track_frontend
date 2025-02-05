@@ -25,7 +25,7 @@ const UserLogin = () => {
     }
 
     try {
-if(formData.email=='pv@gmail.com'){
+if(formData.email==='pv@gmail.com'){
   localStorage.setItem("token", 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTMzODRjYzkzNjQwNmE5NzNlMzRjNyIsImlhdCI6MTczODc2MTA3MywiZXhwIjozLjYwMDAwMDAwMDAwMDAwMDNlKzU5fQ.YfQn4Ds3ZbLAIotW9NViZIGjOSX4lPLG9jk7JvYr5-Y');  // Save token
   localStorage.setItem("isAuthenticated", "true");  // Save authentication status
   navigate("/dashboard");  // Redirect to the Dashboard
